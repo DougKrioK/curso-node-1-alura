@@ -37,9 +37,19 @@ module.exports = (app) => {
 
     app.post('/livros', (req, resp) => {
         const livroDao = new LivroDao(db);
+
         livroDao.adiciona(req.body)
             .then(resp.redirect('/livros'))
             .catch(erro => console.log(erro))
+
+    })
+
+    app.put('/livros', (req, resp) => {
+        const livroDao = new LivroDao(db);
+        livroDao.atualiza(req.body)
+            .then(resp.redirect('/livros'))
+            .catch(erro => console.log(erro))
+
     })
 
     app.delete('/livros/:id', function (req, resp) {
