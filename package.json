@@ -14,7 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "4.16.3"
+    "express": "4.16.3",
+    "marko": "4.13.4-1"
   },
   "bugs": {
     "url": "https://github.com/DougKrioK/curso-node-1-alura/issues"
