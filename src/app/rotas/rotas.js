@@ -61,7 +61,7 @@ module.exports = (app) => {
         if (!erros.isEmpty()) {
             return resp.marko(
                 require('../views/livros/form/form.marko'), {
-                    livro: {},
+                    livro: req.body,
                     errosValidacao: erros.array()
                 }
             );
