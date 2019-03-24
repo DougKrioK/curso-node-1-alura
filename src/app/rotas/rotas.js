@@ -1,7 +1,4 @@
-const {
-    check,
-    validationResult
-} = require('express-validator/check');
+const Livro = require('../modelos/livro');
 
 const LivroControlador = require('../controladores/livro-controlador');
 const livroControlador = new LivroControlador();
@@ -21,11 +18,7 @@ module.exports = (app) => {
 
     app.get(rotasLivro.edicao, livroControlador.formularioEdicao());
 
-    app.post(rotasLivro.lista, [
-        check('titulo').isLength({ min: 5 }).withMessage('O título precisa ter no mínimo 5 caracteres!'),
-        check('preco').isCurrency().withMessage('O preço precisa ter um valor monetário válido!')
-    ], 
-    livroControlador.cadastra());
+    app.post(rotasLivro.lista, Livro.validacoes(), livroControlador.cadastra());
 
     app.put(rotasLivro.lista, livroControlador.edita());
 
