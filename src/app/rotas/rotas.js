@@ -1,5 +1,10 @@
 const LivroDao = require('../infra/livro-dao');
 const db = require('../../config/database');
+const {
+    check,
+    validationResult
+} = require('express-validator/check');
+
 
 module.exports = (app) => {
     app.get('/', function(req, resp) {
@@ -8,10 +13,26 @@ module.exports = (app) => {
         );
     });
     
-    app.get('/livros', function(req, resp) {
+    app.get('/livros', [
+            check('titulo').isLength({
+                min: 5
+            }),
+            check('preco').isCurrency()
+        ],
+        function (req, resp) {
+            const livroDao = new LivroDao(db);
 
-        const livroDao = new LivroDao(db);
-        livroDao.lista()
+            const erros = validationResult(req);
+
+            if (!erros.isEmpty()) {
+                return resp.marko(
+                    require('../views/livros/form/form.marko'), {
+                        livro: {}
+                    }
+                );
+            }
+            
+            livroDao.lista()
                 .then(livros => resp.marko(
                     require('../views/livros/lista/lista.marko'),
                     {
@@ -19,7 +40,8 @@ module.exports = (app) => {
                     }
                 ))
                 .catch(erro => console.log(erro));
-    });
+        }
+    );
 
     app.get('/livros/form', function(req, resp) {
         resp.marko(require('../views/livros/form/form.marko'), { livro: {} });
