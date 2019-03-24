@@ -5,6 +5,15 @@ const db = require('../../config/database');
 
 class LivroControlador {
 
+    static rotas() {
+        return {
+            lista: '/livros',
+            cadastro: '/livros/form',
+            edicao: '/livros/form/:id',
+            delecao: '/livros/:id'
+        };
+    }
+    
     lista() {
         return function(req, resp) {
 
